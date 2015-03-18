@@ -5,6 +5,9 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	
 	$scope.messages=rest.messages;
 	
+	rest.getAll($scope.data,"breweries");
+	$scope.brasseries = $scope.data["breweries"];
+	
 	if(config.beers.refresh==="all" || !config.beers.loaded){
 		$scope.data.load=true;
 		rest.getAll($scope.data,"beers");
