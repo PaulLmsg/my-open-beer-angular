@@ -93,7 +93,10 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		}
 		$scope.data.posted={ "beer" : {
 		    "name" : beer.name,
-		    "url"  : beer.url
+		    "description"  : beer.description,
+		    "abv"  : beer.abv,
+		    "photo"  : beer.photo,
+		    "idBrewery"  : beer.idBrewery
 		  }
 		};
 		$scope.data.breweries.push(beer);
