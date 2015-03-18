@@ -5,8 +5,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	
 	$scope.messages=rest.messages;
 	
-	rest.getAll($scope.data,"breweries");
-	$scope.brasseries = $scope.data["breweries"];
+	if (!config.breweries.loaded){
+		rest.getAll($scope.data,"breweries");
+		config.breweries.loaded=true;
+		$scope.brasseries = $scope.data["breweries"];
+	} else {
+		$scope.data["breweries"]=config.breweries.all;
+		$scope.brasseries = $scope.data["breweries"];
+	}
 	
 	if(config.beers.refresh==="all" || !config.beers.loaded){
 		$scope.data.load=true;
@@ -28,6 +34,10 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	}
 	
 	$scope.showUpdate=function(){
+		return angular.isDefined($scope.activeBeer);
+	};
+	
+	$scope.showShow=function(){
 		return angular.isDefined($scope.activeBeer);
 	};
 	
@@ -90,6 +100,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		$location.path("beers/update");
 	}
 	
+	$scope.show=function(beer){
+		if(angular.isDefined(beer))
+			$scope.activeBeer=beer;
+		config.activeBeer=angular.copy($scope.activeBeer);
+		config.activeBeer.reference=$scope.activeBeer;
+		$location.path("beers/show");
+	}
+	
 	$scope.update=function(beer,force,callback){
 		if(angular.isUndefined(beer)){
 			beer=$scope.activeBeer;
@@ -102,7 +120,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		    "idBrewery"  : beer.idBrewery
 		  }
 		};
-		$scope.data.breweries.push(beer);
+		$scope.data.beers.push(beer);
 		beer.created_at=new Date();
 			if(config.beers.update==="immediate" || force){
 				rest.post($scope.data,"beers",beer.name,callback);

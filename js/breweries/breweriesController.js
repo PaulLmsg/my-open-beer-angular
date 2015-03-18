@@ -28,6 +28,10 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		return angular.isDefined($scope.activeBrewery);
 	};
 	
+	$scope.showShow=function(){
+		return angular.isDefined($scope.activeBrewery);
+	};
+	
 	$scope.refreshOnAsk=function(){
 		return config.breweries.refresh == 'ask';
 	};
@@ -104,6 +108,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 				save.addOperation("New",$scope.update,brewery);
 				$location.path("breweries");
 			}
+	}
+	
+	$scope.show=function(brewery){
+		if(angular.isDefined(brewery))
+			$scope.activeBrewery=brewery;
+		config.activeBrewery=angular.copy($scope.activeBrewery);
+		config.activeBrewery.reference=$scope.activeBrewery;
+		$location.path("breweries/show");
 	}
 	
 	$scope.remove=function(){

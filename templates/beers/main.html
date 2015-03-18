@@ -17,7 +17,10 @@
 		<a class="btn btn-default" data-ng-show="showUpdate()" data-ng-click="edit()">Modifier</a>
 	</div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
-		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()"><data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la brasserie','other':'Supprimer les brasseries ({})'}"></span></a>
+		<a class="btn btn-default" data-ng-show="countSelected()>0" data-ng-click="remove()"><data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la biï¿½re','other':'Supprimer les biï¿½res ({})'}"></a>
+	</div>
+	<div class="btn-group" role="group" aria-label="Afficher">
+		<a class="btn btn-default" data-ng-show="showShow()" data-ng-click="show()">Afficher</a>
 	</div>
 	<div class="btn-group" role="group" aria-label="count">
 		<div class="btn"><data-ng-pluralize count="results.length" when="{0: 'no beer',1: 'one beer','other':'{} beers'}"></data-ng-pluralize></div>
@@ -40,7 +43,7 @@
 			<th data-sort-by data-field="id" data-ref="sortBy"># </th>
 			<th data-sort-by data-field="name" data-ref="sortBy">Name </th>
 			<th data-sort-by data-field="description" data-ref="sortBy">Description </th>
-			<th data-sort-by data-field="abv" data-ref="sortBy">Abbréviation </th>
+			<th data-sort-by data-field="abv" data-ref="sortBy">Abbrï¿½viation </th>
 			<th data-sort-by data-field="photo" data-ref="sortBy">Photographie </th>
 			<th data-sort-by data-field="idBrewery" data-ref="sortBy">Brasserie </th>
 			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at </th>

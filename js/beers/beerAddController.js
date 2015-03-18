@@ -2,6 +2,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 	
 	$scope.data={};
 	$scope.data["beers"]=config.beers.all;
+	$scope.data["breweries"]=config.breweries.all;
 	var self=this;
 	var selfScope=$scope;
 	$scope.setFormScope=function(form){

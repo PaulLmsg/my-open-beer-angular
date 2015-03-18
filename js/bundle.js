@@ -171,11 +171,12 @@ run(['$rootScope','$location', '$routeParams', function($rootScope, $location, $
 }]
 ).factory("config", require("./config/configFactory"));
 
-},{"./addons/drag":1,"./addons/modal":2,"./addons/modalService":3,"./addons/notDeletedFilter":4,"./addons/sortBy":5,"./beers/beersModule":10,"./breweries/breweriesModule":12,"./config":15,"./config/configFactory":17,"./config/configModule":18,"./mainController":19,"./save/saveController":20,"./services/rest":21,"./services/save":22}],7:[function(require,module,exports){
+},{"./addons/drag":1,"./addons/modal":2,"./addons/modalService":3,"./addons/notDeletedFilter":4,"./addons/sortBy":5,"./beers/beersModule":11,"./breweries/breweriesModule":13,"./config":17,"./config/configFactory":19,"./config/configModule":20,"./mainController":21,"./save/saveController":22,"./services/rest":23,"./services/save":24}],7:[function(require,module,exports){
 module.exports=function($scope,config,$location,rest,save,$document,modalService) {
 	
 	$scope.data={};
 	$scope.data["beers"]=config.beers.all;
+	$scope.data["breweries"]=config.breweries.all;
 	var self=this;
 	var selfScope=$scope;
 	$scope.setFormScope=function(form){
@@ -233,6 +234,42 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 };
 },{}],8:[function(require,module,exports){
 module.exports=function($scope,config,$location,rest,save,$document,modalService, $controller){
+	
+	if(angular.isUndefined(config.activeBeer)){
+		$location.path("beers/");
+	}
+	$scope.activeBeer=config.activeBeer;
+	
+	$scope._update=function(beer,force,callback){
+		var result=false;
+		if($scope.frmBeer.$dirty){
+			if(angular.isUndefined(beer)){
+				beer=$scope.activeBeer;
+			}else{
+				config.activeBeer=angular.copy(beer);
+				config.activeBeer.reference=beer;
+			}
+			$scope.data.posted={ "beer" : {
+			    "name" : beer.name,
+			    "description"  : beer.description,
+			    "abv"  : beer.abv,
+			    "photo"  : beer.photo,
+			    "idBrewery"  : beer.idBrewery
+			  }
+			};
+			
+			config.activeBeer.reference.name=$scope.activeBeer.name;
+			config.activeBeer.reference.url=$scope.activeBeer.url;
+			config.activeBeer.reference.updated_at=new Date();
+			
+		}else{
+			result=true;
+		}
+		return result;
+	}
+};
+},{}],9:[function(require,module,exports){
+module.exports=function($scope,config,$location,rest,save,$document,modalService, $controller){
 	$controller('BeerAddController', {$scope: $scope});
 
 	if(angular.isUndefined(config.activeBeer)){
@@ -275,7 +312,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		return result;
 	}
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	$scope.data={load:false};
 
@@ -283,8 +320,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	
 	$scope.messages=rest.messages;
 	
-	rest.getAll($scope.data,"breweries");
-	$scope.brasseries = $scope.data["breweries"];
+	if (!config.breweries.loaded){
+		rest.getAll($scope.data,"breweries");
+		config.breweries.loaded=true;
+		$scope.brasseries = $scope.data["breweries"];
+	} else {
+		$scope.data["breweries"]=config.breweries.all;
+		$scope.brasseries = $scope.data["breweries"];
+	}
 	
 	if(config.beers.refresh==="all" || !config.beers.loaded){
 		$scope.data.load=true;
@@ -306,6 +349,10 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	}
 	
 	$scope.showUpdate=function(){
+		return angular.isDefined($scope.activeBeer);
+	};
+	
+	$scope.showShow=function(){
 		return angular.isDefined($scope.activeBeer);
 	};
 	
@@ -368,6 +415,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		$location.path("beers/update");
 	}
 	
+	$scope.show=function(beer){
+		if(angular.isDefined(beer))
+			$scope.activeBeer=beer;
+		config.activeBeer=angular.copy($scope.activeBeer);
+		config.activeBeer.reference=$scope.activeBeer;
+		$location.path("beers/show");
+	}
+	
 	$scope.update=function(beer,force,callback){
 		if(angular.isUndefined(beer)){
 			beer=$scope.activeBeer;
@@ -380,7 +435,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		    "idBrewery"  : beer.idBrewery
 		  }
 		};
-		$scope.data.breweries.push(beer);
+		$scope.data.beers.push(beer);
 		beer.created_at=new Date();
 			if(config.beers.update==="immediate" || force){
 				rest.post($scope.data,"beers",beer.name,callback);
@@ -408,13 +463,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		}
 	}
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var appBeers=angular.module("BeersApp", []).
 controller("BeersController", ["$scope","rest","$timeout","$location","config","$route","save",require("./beersController")]).
 controller("BeerAddController",["$scope","config","$location","rest","save","$document","modalService",require("./beerAddController")]).
-controller("BeerUpdateController",["$scope","config","$location","rest","save","$document","modalService","$controller",require("./beerUpdateController")]);
+controller("BeerUpdateController",["$scope","config","$location","rest","save","$document","modalService","$controller",require("./beerUpdateController")]).
+controller("BeerShowController",["$scope","config","$location","rest","save","$document","modalService","$controller",require("./beerShowController")]);
 module.exports=angular.module("BeersApp").name;
-},{"./beerAddController":7,"./beerUpdateController":8,"./beersController":9}],11:[function(require,module,exports){
+},{"./beerAddController":7,"./beerShowController":8,"./beerUpdateController":9,"./beersController":10}],12:[function(require,module,exports){
 module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	$scope.data={load:false};
 
@@ -442,6 +498,10 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	}
 	
 	$scope.showUpdate=function(){
+		return angular.isDefined($scope.activeBrewery);
+	};
+	
+	$scope.showShow=function(){
 		return angular.isDefined($scope.activeBrewery);
 	};
 	
@@ -523,6 +583,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 			}
 	}
 	
+	$scope.show=function(brewery){
+		if(angular.isDefined(brewery))
+			$scope.activeBrewery=brewery;
+		config.activeBrewery=angular.copy($scope.activeBrewery);
+		config.activeBrewery.reference=$scope.activeBrewery;
+		$location.path("breweries/show");
+	}
+	
 	$scope.remove=function(){
 		angular.forEach($scope.data.breweries, function(value, key) {
 			if(value.selected){
@@ -541,13 +609,14 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		}
 	}
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var appBreweries=angular.module("BreweriesApp", []).
 controller("BreweriesController", ["$scope","rest","$timeout","$location","config","$route","save",require("./breweriesController")]).
 controller("BreweryAddController",["$scope","config","$location","rest","save","$document","modalService",require("./breweryAddController")]).
-controller("BreweryUpdateController",["$scope","config","$location","rest","save","$document","modalService","$controller",require("./breweryUpdateController")]);
+controller("BreweryUpdateController",["$scope","config","$location","rest","save","$document","modalService","$controller",require("./breweryUpdateController")]).
+controller("BreweryShowController",["$scope","config","$location","rest","save","$document","modalService","$controller",require("./breweryShowController")])
 module.exports=angular.module("BreweriesApp").name;
-},{"./breweriesController":11,"./breweryAddController":13,"./breweryUpdateController":14}],13:[function(require,module,exports){
+},{"./breweriesController":12,"./breweryAddController":14,"./breweryShowController":15,"./breweryUpdateController":16}],14:[function(require,module,exports){
 module.exports=function($scope,config,$location,rest,save,$document,modalService) {
 	
 	$scope.data={};
@@ -603,7 +672,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		return result;
 	}
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports=function($scope,config,$location,rest,save,$document,modalService, $controller){
 	$controller('BreweryAddController', {$scope: $scope});
 
@@ -643,7 +712,9 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		return result;
 	}
 };
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
+arguments[4][15][0].apply(exports,arguments)
+},{"dup":15}],17:[function(require,module,exports){
 module.exports=function($routeProvider,$locationProvider,$httpProvider) {
 	//$httpProvider.defaults.useXDomain = true;
 	//$httpProvider.defaults.withCredentials = true;
@@ -664,6 +735,9 @@ module.exports=function($routeProvider,$locationProvider,$httpProvider) {
 	}).when('/breweries/update', {
 		templateUrl: 'templates/breweries/breweryForm.html',
 		controller: 'BreweryUpdateController'
+	}).when('/breweries/show', {
+		templateUrl: 'templates/breweries/breweryShowForm.html',
+		controller: 'BreweryShowController'
 	}).when('/beers', {
 		templateUrl: 'templates/beers/main.html',
 		controller: 'BeersController'
@@ -676,6 +750,9 @@ module.exports=function($routeProvider,$locationProvider,$httpProvider) {
 	}).when('/beers/update', {
 		templateUrl: 'templates/beers/beerForm.html',
 		controller: 'BeerUpdateController'
+	}).when('/beers/show', {
+		templateUrl: 'templates/beers/beerShowForm.html',
+		controller: 'BeerShowController'
 	}).when('/saves', {
 		templateUrl: 'templates/saveMain.html',
 		controller: 'SaveController'
@@ -689,7 +766,7 @@ module.exports=function($routeProvider,$locationProvider,$httpProvider) {
 		$locationProvider.html5Mode(true);
 	}
 };
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports=function($scope,config,$location){
 
 	$scope.config=angular.copy(config);
@@ -702,6 +779,7 @@ module.exports=function($scope,config,$location){
 		if($scope.frmConfig.$dirty){
 			config.server=$scope.config.server;
 			config.breweries=$scope.config.breweries;
+			config.beers=$scope.config.beers;
 		}
 		$location.path("/");
 	};
@@ -709,27 +787,34 @@ module.exports=function($scope,config,$location){
 		$location.path("/");
 	};
 };
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 module.exports=function() {
 	var factory={breweries:{},beers:{},server:{}};
+	
+	//Reglages pour les brasseries
 	factory.activeBrewery=undefined;
 	factory.breweries.loaded=false;
-	factory.breweries.refresh="all";//all|ask
-	factory.breweries.update="immediate";//deffered|immediate
+	factory.breweries.refresh="all"; //all|ask
+	factory.breweries.update="immediate"; //deffered|immediate
+	
+	//Reglages pour les bières
 	factory.activeBeer=undefined;
 	factory.beers.loaded=false;
-	factory.beers.refresh="all";//all|ask
-	factory.beers.update="immediate";//deffered|immediate
+	factory.beers.refresh="all"; //all|ask
+	factory.beers.update="immediate"; //deffered|immediate
+	
+	//Reglages de connexion
 	factory.server.privateToken="";
 	factory.server.restServerUrl="http://127.0.0.1/rest-open-beer-master/";
 	factory.server.force=true;
+	
 	return factory;
 };
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var configApp=angular.module("ConfigApp", []).
 controller("ConfigController", ["$scope","config","$location",require("./configController")]);
 module.exports=configApp.name;
-},{"./configController":16}],19:[function(require,module,exports){
+},{"./configController":18}],21:[function(require,module,exports){
 module.exports=function($scope,$location,save,$window) {
 	
 	$scope.hasOperations=function(){
@@ -752,7 +837,7 @@ module.exports=function($scope,$location,save,$window) {
 	});
 	
 };
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports=function($scope,$location,save){
 	$scope.data=save;
 	$scope.allSelected=false;
@@ -792,7 +877,7 @@ module.exports=function($scope,$location,save){
 		return true;
 	};
 };
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 module.exports=function($http,$resource,$location,restConfig,$sce) {
 	var self=this;
 	if(angular.isUndefined(this.messages))
@@ -897,7 +982,7 @@ module.exports=function($http,$resource,$location,restConfig,$sce) {
 		self.messages.length=0;
 	};
 };
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 module.exports=function(rest,config,$route){
 	var self=this;
 	this.dataScope={};
@@ -923,6 +1008,7 @@ module.exports=function(rest,config,$route){
 			callback=function(){
 				self.operations.length=0;
 				config.breweries.loaded=false;
+				config.beers.loaded=false;
 				$route.reload();
 			};
 		}
@@ -936,6 +1022,7 @@ module.exports=function(rest,config,$route){
 			self.execute(0);
 		}else{
 			config.breweries.loaded=false;
+			config.beers.loaded=false;
 			$route.reload();
 		}
 	}

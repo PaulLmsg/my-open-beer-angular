@@ -15,6 +15,19 @@
 						A la demande
 					</label>
 				</div>
+				<label for="name">Beers</label>
+					<div class="radio">
+						<label>
+							<input type="radio" name="beersRefresh" value="all" data-ng-model="config.beers.refresh">
+							Recharger à chaque affichage
+						</label>
+					</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="beersRefresh" id="beersRefresh2" value="ask" data-ng-model="config.beers.refresh">
+						A la demande
+					</label>
+				</div>
 			</div>
 		</fieldset>
 
@@ -31,6 +44,19 @@
 				<div class="radio">
 					<label>
 						<input type="radio" name="breweriesUpdate" id="breweriesUpdate2" value="deffered" data-ng-model="config.breweries.update">
+						A la demande
+					</label>
+				</div>
+				<label for="name">Beers</label>
+					<div class="radio">
+						<label>
+							<input type="radio" name="beersUpdate" value="immediate" data-ng-model="config.beers.update">
+							Immédiate
+						</label>
+					</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="beersUpdate" id="beersUpdate2" value="deffered" data-ng-model="config.beers.update">
 						A la demande
 					</label>
 				</div>
