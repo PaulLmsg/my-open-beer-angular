@@ -28,7 +28,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 			config.activeBeer.reference.url=$scope.activeBeer.url;
 			config.activeBeer.reference.updated_at=new Date();
 			
-			if(config.beers.update==="immediate" || force)
+			if(config.beers.connected==="yes" || force)
 				rest.put(config.activeBeer.id,$scope.data,"beers",config.activeBeer.name,callback);
 			else{
 				config.activeBeer.reference.flag="Updated";

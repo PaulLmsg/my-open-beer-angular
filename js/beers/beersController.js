@@ -14,7 +14,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		$scope.brasseries = $scope.data["breweries"];
 	}
 	
-	if(config.beers.refresh==="all" || !config.beers.loaded){
+	if(config.beers.connected==="yes" || !config.beers.loaded){
 		$scope.data.load=true;
 		rest.getAll($scope.data,"beers");
 		config.beers.loaded=true;
@@ -42,11 +42,11 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	};
 	
 	$scope.refreshOnAsk=function(){
-		return config.beers.refresh == 'ask';
+		return config.beers.connected == 'no';
 	};
 	
 	$scope.defferedUpdate=function(){
-		return config.beers.update == 'deffered';
+		return config.beers.connected == 'no';
 	};
 	
 	$scope.setActive=function(beer){
@@ -122,7 +122,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		};
 		$scope.data.beers.push(beer);
 		beer.created_at=new Date();
-			if(config.beers.update==="immediate" || force){
+			if(config.beers.connected==="yes" || force){
 				rest.post($scope.data,"beers",beer.name,callback);
 			}else{
 				save.addOperation("New",$scope.update,beer);
@@ -139,7 +139,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		return true;
 	};
 	$scope.removeOne=function(beer,force,callback){
-		if(config.beers.update==="immediate" || force){
+		if(config.beers.connected==="yes" || force){
 			beer.deleted=true;
 			rest.remove(beer,"beers",callback);
 		}else{

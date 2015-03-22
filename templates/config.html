@@ -1,65 +1,33 @@
 	<form name="frmConfig" data-ng-submit="frmConfig.$valid && update()" novalidate data-ng-init="setFormScope(this)">
 		<fieldset>
-			<legend>Rafraîchissements</legend>
+			<legend>Connected</legend>
 			<div class="form-group">
 				<label for="name">Breweries</label>
 					<div class="radio">
 						<label>
-							<input type="radio" name="breweriesRefresh" value="all" data-ng-model="config.breweries.refresh">
-							Recharger à chaque affichage
+							<input type="radio" name="breweriesConnected" value="yes" data-ng-model="config.breweries.connected">
+							Yes
 						</label>
 					</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="breweriesRefresh" id="breweriesRefresh2" value="ask" data-ng-model="config.breweries.refresh">
-						A la demande
-					</label>
-				</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="breweriesConnected" value="no" data-ng-model="config.breweries.connected">
+							No
+						</label>
+					</div>
 				<label for="name">Beers</label>
 					<div class="radio">
 						<label>
-							<input type="radio" name="beersRefresh" value="all" data-ng-model="config.beers.refresh">
-							Recharger à chaque affichage
+							<input type="radio" name="beersConnected" value="yes" data-ng-model="config.beers.connected">
+							Yes
 						</label>
 					</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="beersRefresh" id="beersRefresh2" value="ask" data-ng-model="config.beers.refresh">
-						A la demande
-					</label>
-				</div>
-			</div>
-		</fieldset>
-
-		<fieldset>
-			<legend>Mise à jour</legend>
-			<div class="form-group">
-				<label for="name">Breweries</label>
 					<div class="radio">
 						<label>
-							<input type="radio" name="breweriesUpdate" value="immediate" data-ng-model="config.breweries.update">
-							Immédiate
+							<input type="radio" name="beersConnected" value="no" data-ng-model="config.beers.connected">
+							No
 						</label>
 					</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="breweriesUpdate" id="breweriesUpdate2" value="deffered" data-ng-model="config.breweries.update">
-						A la demande
-					</label>
-				</div>
-				<label for="name">Beers</label>
-					<div class="radio">
-						<label>
-							<input type="radio" name="beersUpdate" value="immediate" data-ng-model="config.beers.update">
-							Immédiate
-						</label>
-					</div>
-				<div class="radio">
-					<label>
-						<input type="radio" name="beersUpdate" id="beersUpdate2" value="deffered" data-ng-model="config.beers.update">
-						A la demande
-					</label>
-				</div>
 			</div>
 		</fieldset>
 

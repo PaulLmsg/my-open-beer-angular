@@ -67,3 +67,7 @@ tr.active{
 	font-weight: bold;
 	font-color: #AD914D;
 }
+
+.droite{
+	text-align: right;
+}

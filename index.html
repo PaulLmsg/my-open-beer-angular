@@ -31,9 +31,14 @@
 	</div>
 	<div class="container">
 		<ol class="breadcrumb">
-				<li><a href="home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;Home</a></li>
-				<li ng-repeat="page in paths"><a ng-href="{{page.href}}">&nbsp;{{page.caption}}</a></li>
-			</ol>
+			<li><a href="home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;Home</a></li>
+			<li ng-repeat="page in paths"><a ng-href="{{page.href}}">&nbsp;{{page.caption}}</a></li>
+		</ol>
+		<div class="panel panel-info" data-ng-controller="SecurityController">
+			{{messageEtatConnexion()}}
+			<button ng-show="connecte" class="btn btn-danger" ng-model="deco" ng-click="deconnexion()">Se déconnecter</button>	
+			<button ng-show="!connecte" class="btn btn-success" ng-model="co" ng-click="connexion('','')">Se connecter</button>	
+		</div>
 	</div>
 	<div class="container">
 		<ng-view>

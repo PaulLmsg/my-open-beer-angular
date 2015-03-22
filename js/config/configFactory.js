@@ -4,14 +4,12 @@ module.exports=function() {
 	//Reglages pour les brasseries
 	factory.activeBrewery=undefined;
 	factory.breweries.loaded=false;
-	factory.breweries.refresh="all"; //all|ask
-	factory.breweries.update="immediate"; //deffered|immediate
+	factory.breweries.connected="no"; //yes|no
 	
 	//Reglages pour les bières
 	factory.activeBeer=undefined;
 	factory.beers.loaded=false;
-	factory.beers.refresh="all"; //all|ask
-	factory.beers.update="immediate"; //deffered|immediate
+	factory.beers.connected="yes"; //yes|no
 	
 	//Reglages de connexion
 	factory.server.privateToken="";

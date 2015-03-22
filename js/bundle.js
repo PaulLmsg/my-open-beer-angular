@@ -142,6 +142,7 @@ controller("MainController", ["$scope","$location","save","$window",require("./m
 controller("SaveController", ["$scope","$location","save",require("./save/saveController")]).
 service("rest", ["$http","$resource","$location","config","$sce",require("./services/rest")]).
 service("save", ["rest","config","$route",require("./services/save")]).
+controller("SecurityController", ["$scope","$log","rest","$location","save",require("./security/securityController")]).
 config(["$routeProvider","$locationProvider","$httpProvider",require("./config")]).
 filter("NotDeletedFilter",require("./addons/notDeletedFilter")).
 directive("sortBy", [require("./addons/sortBy")]).
@@ -171,7 +172,7 @@ run(['$rootScope','$location', '$routeParams', function($rootScope, $location, $
 }]
 ).factory("config", require("./config/configFactory"));
 
-},{"./addons/drag":1,"./addons/modal":2,"./addons/modalService":3,"./addons/notDeletedFilter":4,"./addons/sortBy":5,"./beers/beersModule":11,"./breweries/breweriesModule":13,"./config":17,"./config/configFactory":19,"./config/configModule":20,"./mainController":21,"./save/saveController":22,"./services/rest":23,"./services/save":24}],7:[function(require,module,exports){
+},{"./addons/drag":1,"./addons/modal":2,"./addons/modalService":3,"./addons/notDeletedFilter":4,"./addons/sortBy":5,"./beers/beersModule":11,"./breweries/breweriesModule":13,"./config":17,"./config/configFactory":19,"./config/configModule":20,"./mainController":21,"./save/saveController":22,"./security/securityController":23,"./services/rest":24,"./services/save":25}],7:[function(require,module,exports){
 module.exports=function($scope,config,$location,rest,save,$document,modalService) {
 	
 	$scope.data={};
@@ -223,7 +224,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		};
 		$scope.data.beers.push(beer);
 		beer.created_at=new Date();
-		if(config.beers.update==="immediate" || force){
+		if(config.beers.connected==="yes" || force){
 			rest.post($scope.data,"beers",beer.name,callback);
 		}else{
 			save.addOperation("New",$scope.update,beer);
@@ -308,7 +309,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 			config.activeBeer.reference.url=$scope.activeBeer.url;
 			config.activeBeer.reference.updated_at=new Date();
 			
-			if(config.beers.update==="immediate" || force)
+			if(config.beers.connected==="yes" || force)
 				rest.put(config.activeBeer.id,$scope.data,"beers",config.activeBeer.name,callback);
 			else{
 				config.activeBeer.reference.flag="Updated";
@@ -338,7 +339,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		$scope.brasseries = $scope.data["breweries"];
 	}
 	
-	if(config.beers.refresh==="all" || !config.beers.loaded){
+	if(config.beers.connected==="yes" || !config.beers.loaded){
 		$scope.data.load=true;
 		rest.getAll($scope.data,"beers");
 		config.beers.loaded=true;
@@ -366,11 +367,11 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	};
 	
 	$scope.refreshOnAsk=function(){
-		return config.beers.refresh == 'ask';
+		return config.beers.connected == 'no';
 	};
 	
 	$scope.defferedUpdate=function(){
-		return config.beers.update == 'deffered';
+		return config.beers.connected == 'no';
 	};
 	
 	$scope.setActive=function(beer){
@@ -446,7 +447,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		};
 		$scope.data.beers.push(beer);
 		beer.created_at=new Date();
-			if(config.beers.update==="immediate" || force){
+			if(config.beers.connected==="yes" || force){
 				rest.post($scope.data,"beers",beer.name,callback);
 			}else{
 				save.addOperation("New",$scope.update,beer);
@@ -463,7 +464,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		return true;
 	};
 	$scope.removeOne=function(beer,force,callback){
-		if(config.beers.update==="immediate" || force){
+		if(config.beers.connected==="yes" || force){
 			beer.deleted=true;
 			rest.remove(beer,"beers",callback);
 		}else{
@@ -487,7 +488,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	
 	$scope.messages=rest.messages;
 	
-	if(config.breweries.refresh==="all" || !config.breweries.loaded){
+	if(config.breweries.connected==="yes" || !config.breweries.loaded){
 		$scope.data.load=true;
 		rest.getAll($scope.data,"breweries");
 		config.breweries.loaded=true;
@@ -515,11 +516,11 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	};
 	
 	$scope.refreshOnAsk=function(){
-		return config.breweries.refresh == 'ask';
+		return config.breweries.connected == 'no';
 	};
 	
 	$scope.defferedUpdate=function(){
-		return config.breweries.update == 'deffered';
+		return config.breweries.connected == 'no';
 	};
 	
 	$scope.setActive=function(brewery){
@@ -584,7 +585,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		};
 		$scope.data.breweries.push(brewery);
 		brewery.created_at=new Date();
-			if(config.breweries.update==="immediate" || force){
+			if(config.breweries.connected==="yes" || force){
 				rest.post($scope.data,"breweries",brewery.name,callback);
 			}else{
 				save.addOperation("New",$scope.update,brewery);
@@ -609,7 +610,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		return true;
 	};
 	$scope.removeOne=function(brewery,force,callback){
-		if(config.breweries.update==="immediate" || force){
+		if(config.breweries.connected==="yes" || force){
 			brewery.deleted=true;
 			rest.remove(brewery,"breweries",callback);
 		}else{
@@ -672,7 +673,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		};
 		$scope.data.breweries.push(brewery);
 		brewery.created_at=new Date();
-		if(config.breweries.update==="immediate" || force){
+		if(config.breweries.connected==="yes" || force){
 			rest.post($scope.data,"breweries",brewery.name,callback);
 		}else{
 			save.addOperation("New",$scope.update,brewery);
@@ -708,7 +709,7 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 			config.activeBrewery.reference.url=$scope.activeBrewery.url;
 			config.activeBrewery.reference.updated_at=new Date();
 			
-			if(config.breweries.update==="immediate" || force)
+			if(config.breweries.connected==="yes" || force)
 				rest.put(config.activeBrewery.id,$scope.data,"breweries",config.activeBrewery.name,callback);
 			else{
 				config.activeBrewery.reference.flag="Updated";
@@ -803,14 +804,12 @@ module.exports=function() {
 	//Reglages pour les brasseries
 	factory.activeBrewery=undefined;
 	factory.breweries.loaded=false;
-	factory.breweries.refresh="all"; //all|ask
-	factory.breweries.update="immediate"; //deffered|immediate
+	factory.breweries.connected="no"; //yes|no
 	
 	//Reglages pour les bières
 	factory.activeBeer=undefined;
 	factory.beers.loaded=false;
-	factory.beers.refresh="all"; //all|ask
-	factory.beers.update="immediate"; //deffered|immediate
+	factory.beers.connected="yes"; //yes|no
 	
 	//Reglages de connexion
 	factory.server.privateToken="";
@@ -887,6 +886,41 @@ module.exports=function($scope,$location,save){
 	};
 };
 },{}],23:[function(require,module,exports){
+module.exports=function($scope,$log,rest,$location,save){
+	$scope.connecte = false;
+	
+	$scope.mail = "";
+	$scope.password = "";
+	
+	$scope.connexion = function(id, password){
+		$scope.mail = id;
+		$scope.password = password;
+		if ($scope.testCompte(id, password)){
+			$scope.connecte = true;
+			$log.warn("toto");
+			return true;
+		}
+		return false;
+	}
+	
+	$scope.deconnexion = function(){
+		$scope.connecte = false;
+		
+		$scope.mail = "";
+		$scope.password = "";
+	}
+	
+	$scope.testCompte = function(id, password){
+		return true;
+	}
+	
+	$scope.messageEtatConnexion = function(){
+		if ($scope.connecte)
+			return $scope.mail;
+		return "non connecté";
+	}
+};
+},{}],24:[function(require,module,exports){
 module.exports=function($http,$resource,$location,restConfig,$sce) {
 	var self=this;
 	if(angular.isUndefined(this.messages))
@@ -991,7 +1025,7 @@ module.exports=function($http,$resource,$location,restConfig,$sce) {
 		self.messages.length=0;
 	};
 };
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 module.exports=function(rest,config,$route){
 	var self=this;
 	this.dataScope={};
