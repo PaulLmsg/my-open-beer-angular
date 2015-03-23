@@ -37,7 +37,8 @@
 		<div class="panel panel-info" data-ng-controller="SecurityController">
 			{{messageEtatConnexion()}}
 			<button ng-show="connecte" class="btn btn-danger" ng-model="deco" ng-click="deconnexion()">Se déconnecter</button>	
-			<button ng-show="!connecte" class="btn btn-success" ng-model="co" ng-click="connexion('','')">Se connecter</button>	
+			<button ng-show="!connecte" class="btn" ng-class="{'btn-success': afficherChamps, 'btn-warning': !afficherChamps}" ng-model="co" ng-click="connexion()">Se connecter</button>
+			<span ng-show="afficherChamps"><input type="text" ng-model="identifiant" placeholder="identifiant"/><input type="password" ng-model="motDePasse"/></span>	
 		</div>
 	</div>
 	<div class="container">

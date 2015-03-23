@@ -19,7 +19,6 @@
 			<!-- <select id="idBrewery" data-ng-model="activeBeer.idBrewery">
 				<option ng-repeat="brasserie in brasseries" value="{{brasserie.id}}">{{brasserie.name}}</option>
 			</select> -->
-			<div ng-repeat="brasserie in brasseries">{{brasserie.id}} {{brasserie.name}}</div>
 			
 			<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
 		</div>
@@ -32,6 +31,7 @@
 			<label for="created_at">Date de création</label>
 			<input class="form-control" type="text" data-ng-model="activeBeer.created_at" id="created_at" name="created_at" disabled="disabled">
 		</div>
+		<div ng-model="" ng-repeat="brasserie in brasseries">{{brasserie.id}} {{brasserie.name}}</div>
 		<button type="submit" class="btn btn-default" data-ng-click="exit=true">Valider</button>
 		&nbsp;<a href="beers" class="btn btn-default" data-ng-click="exit=true">Annuler</a>
 	</form>

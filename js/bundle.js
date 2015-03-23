@@ -888,19 +888,28 @@ module.exports=function($scope,$location,save){
 },{}],23:[function(require,module,exports){
 module.exports=function($scope,$log,rest,$location,save){
 	$scope.connecte = false;
+	$scope.afficherChamps = false;
 	
 	$scope.mail = "";
 	$scope.password = "";
 	
-	$scope.connexion = function(id, password){
-		$scope.mail = id;
-		$scope.password = password;
-		if ($scope.testCompte(id, password)){
-			$scope.connecte = true;
-			$log.warn("toto");
-			return true;
+	$scope.connexion = function(){
+		if ($scope.afficherChamps){
+			$scope.afficherChamps = false;
+			$scope.mail = $scope.identifiant;
+			$scope.identifiant = "";
+			$scope.password = $scope.motDePasse;
+			$scope.motDePasse = "";
+			if ($scope.testCompte($scope.mail, $scope.password)){
+				$scope.connecte = true;
+				$log.warn("toto");
+				return true;
+			}
+			return false;
+		} else {
+			$scope.afficherChamps = true;
 		}
-		return false;
+		
 	}
 	
 	$scope.deconnexion = function(){
@@ -915,9 +924,11 @@ module.exports=function($scope,$log,rest,$location,save){
 	}
 	
 	$scope.messageEtatConnexion = function(){
-		if ($scope.connecte)
+		if ($scope.connecte){
 			return $scope.mail;
-		return "non connecté";
+		} else {
+			return "non connecté";
+		}		
 	}
 };
 },{}],24:[function(require,module,exports){
