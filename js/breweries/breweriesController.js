@@ -25,7 +25,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	}
 	
 	$scope.showUpdate=function(){
-		return angular.isDefined($scope.activeBrewery);
+		return (angular.isDefined($scope.activeBrewery) && $scope.connecte);
 	};
 	
 	$scope.showShow=function(){
