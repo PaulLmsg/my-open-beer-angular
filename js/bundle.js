@@ -241,6 +241,15 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 	}
 	$scope.activeBeer=config.activeBeer;
 	
+	if (!config.breweries.loaded){
+		rest.getAll($scope.data,"breweries");
+		config.breweries.loaded=true;
+		$scope.brasseries = $scope.data["breweries"];
+	} else {
+		//$scope.data["breweries"]=config.breweries.all;
+		$scope.brasseries = config.breweries.all;
+	}
+	
 	$scope._update=function(beer,force,callback){
 		var result=false;
 		if($scope.frmBeer.$dirty){
@@ -286,6 +295,15 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		$location.path("beers/");
 	}
 	$scope.activeBeer=config.activeBeer;
+	
+	if (!config.breweries.loaded){
+		rest.getAll($scope.data,"breweries");
+		config.breweries.loaded=true;
+		$scope.brasseries = $scope.data["breweries"];
+	} else {
+		//$scope.data["breweries"]=config.breweries.all;
+		$scope.brasseries = config.breweries.all;
+	}
 	
 	$scope._update=function(beer,force,callback){
 		var result=false;
@@ -335,8 +353,8 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 		config.breweries.loaded=true;
 		$scope.brasseries = $scope.data["breweries"];
 	} else {
-		$scope.data["breweries"]=config.breweries.all;
-		$scope.brasseries = $scope.data["breweries"];
+		//$scope.data["breweries"]=config.breweries.all;
+		$scope.brasseries = config.breweries.all;
 	}
 	
 	if(config.beers.connected==="yes" || !config.beers.loaded){
@@ -353,6 +371,13 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 			value.selected=$scope.allSelected;
 		});
 	};
+	
+	$scope.getNameBrewery = function(id){
+		for(i=0;i<config.breweries.all.length;i++){
+			if(config.breweries.all[i].id == id)
+				return config.breweries.all[i].name;
+		}
+	}
 	
 	$scope.refresh=function(){
 		save.executeAll();

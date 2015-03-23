@@ -6,6 +6,15 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 	}
 	$scope.activeBeer=config.activeBeer;
 	
+	if (!config.breweries.loaded){
+		rest.getAll($scope.data,"breweries");
+		config.breweries.loaded=true;
+		$scope.brasseries = $scope.data["breweries"];
+	} else {
+		//$scope.data["breweries"]=config.breweries.all;
+		$scope.brasseries = config.breweries.all;
+	}
+	
 	$scope._update=function(beer,force,callback){
 		var result=false;
 		if($scope.frmBeer.$dirty){
