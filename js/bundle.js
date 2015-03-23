@@ -180,6 +180,16 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 	$scope.data["breweries"]=config.breweries.all;
 	var self=this;
 	var selfScope=$scope;
+	
+	if (!config.breweries.loaded){
+		rest.getAll($scope.data,"breweries");
+		config.breweries.loaded=true;
+		$scope.brasseries = $scope.data["breweries"];
+	} else {
+		//$scope.data["breweries"]=config.breweries.all;
+		$scope.brasseries = config.breweries.all;
+	}
+	
 	$scope.setFormScope=function(form){
 		$scope.frmBeer=form;
 	};

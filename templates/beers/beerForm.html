@@ -17,7 +17,7 @@
 		<div class="form-group" data-ng-class="{'has-error has-feedback': frmBeer.idBrewery.$invalid && frmBeer.idBrewery.$dirty }">
 			<label for="idBrewery">Brewery</label>
 			<select class="form-control" id="idBrewery" data-ng-model="activeBeer.idBrewery">
-				<option ng-selected="!(brasserie.id != activeBeer.idBrewery)" ng-repeat="brasserie in brasseries" value="{{brasserie.id}}">{{brasserie.name}}</option>
+				<option ng-selected="!(brasserie.id != activeBeer.idBrewery)" ng-repeat="brasserie in data['breweries']" value="{{brasserie.id}}">{{brasserie.name}}</option>
 			</select>
 		</div>
 		<div class="form-group" data-ng-class="{'has-error has-feedback': frmBeer.abv.$invalid && frmBeer.abv.$dirty }">
