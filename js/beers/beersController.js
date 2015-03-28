@@ -1,5 +1,22 @@
 module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	$scope.data={load:false};
+	
+	$scope.parBrasserie = false;
+	
+	$scope.modifGrouperPar = function(){
+		if ($scope.parBrasserie){
+			$scope.parBrasserie = false;
+		} else {
+			$scope.parBrasserie = true;
+			$scope.data["bieresParBrasseries"] = new Array();
+			for(var i = 0; i<$scope.data["beers"].length; i++){
+				if (!($scope.data["beers"][i].idBrewery in $scope.data["bieresParBrasseries"]))
+					$scope.data["bieresParBrasseries"][$scope.brasseries[i].idBrewery] = new Array();
+				$scope.data["bieresParBrasseries"][$scope.brasseries[i].idBrewery].push($scope.data["beers"][i]);
+			}
+				
+		}
+	}
 
 	$scope.sortBy={field:"name",asc:false};
 	

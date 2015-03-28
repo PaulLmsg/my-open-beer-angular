@@ -14,7 +14,6 @@ module.exports=function($scope,$log,rest,$location,save){
 			$scope.motDePasse = "";
 			if ($scope.testCompte($scope.mail, $scope.password)){
 				$scope.connecte = true;
-				$log.warn("toto");
 				return true;
 			}
 			return false;
