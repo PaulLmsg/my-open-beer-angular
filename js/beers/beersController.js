@@ -39,6 +39,7 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save,$log) 
 		$scope.data["bieresParBrasseries"] = new Array();
 		$log.info($scope.activeBrewery.id + "lolII");
 		if($scope.data["beers"] !== undefined){
+			//C'est cette boucle qu'il ne passe pas, d'où le non affichage des bières par brasserie si l'on vient de l'affichage d'une brasserie
 			$log.info($scope.activeBrewery.id + "lol");
 			for(var i = 0; i<$scope.data["beers"].length; i++){
 				if ($scope.data["beers"][i].idBrewery == $scope.activeBrewery.id){
