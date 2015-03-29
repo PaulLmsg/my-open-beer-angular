@@ -1,35 +1,19 @@
-module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
+module.exports=function($scope,rest,$timeout,$location,config,$route,save,$log) {
 	$scope.data={load:false};
 	
 	$scope.parBrasserie = false;
 	
-	$scope.modifGrouperPar = function(){
-		if ($scope.parBrasserie){
-			$scope.parBrasserie = false;
-		} else {
-			$scope.parBrasserie = true;
-			$scope.data["bieresParBrasseries"] = new Array();
-			for(var i = 0; i<$scope.data["beers"].length; i++){
-				if (!($scope.data["beers"][i].idBrewery in $scope.data["bieresParBrasseries"]))
-					$scope.data["bieresParBrasseries"][$scope.brasseries[i].idBrewery] = new Array();
-				$scope.data["bieresParBrasseries"][$scope.brasseries[i].idBrewery].push($scope.data["beers"][i]);
-			}
-				
-		}
-	}
-
 	$scope.sortBy={field:"name",asc:false};
 	
 	$scope.messages=rest.messages;
 	
-	if (!config.breweries.loaded){
-		rest.getAll($scope.data,"breweries");
-		config.breweries.loaded=true;
-		$scope.brasseries = $scope.data["breweries"];
-	} else {
-		//$scope.data["breweries"]=config.breweries.all;
-		$scope.brasseries = config.breweries.all;
-	}
+	$scope.afficher = new Array();
+	$scope.afficher['name'] = true;
+	$scope.afficher['description'] = true;
+	$scope.afficher['abv'] = true;
+	$scope.afficher['photo'] = true;
+	$scope.afficher['idBrewery'] = true;
+	$scope.afficherFormChoixColonnes = false;
 	
 	if(config.beers.connected==="yes" || !config.beers.loaded){
 		$scope.data.load=true;
@@ -38,6 +22,42 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	}else{
 		$scope.data["beers"]=config.beers.all;
 	}
+	
+	/*On a besoin des brasseries*/
+	
+	if(config.breweries.connected==="yes" || !config.breweries.loaded){
+		$scope.data.load=true;
+		rest.getAll($scope.data,"breweries");
+		config.breweries.loaded=true;
+	} else {
+		$scope.data["breweries"]=config.breweries.all;
+	}
+	
+	$scope.modifAfficher = function(){
+		if ($scope.afficherFormChoixColonnes){
+			$scope.afficherFormChoixColonnes = false;
+		} else {
+			$scope.afficherFormChoixColonnes = true;
+		}
+	}
+	
+	$scope.modifGrouperPar = function(){
+		if ($scope.parBrasserie){
+			$scope.parBrasserie = false;
+		} else {
+			$scope.parBrasserie = true;
+			$scope.data["bieresParBrasseries"] = new Array();
+			if($scope.data["beers"] !== undefined)
+			for(var i = 0; i<$scope.data["beers"].length; i++){
+				if (!($scope.data["beers"][i].idBrewery in $scope.data["bieresParBrasseries"]))
+					$scope.data["bieresParBrasseries"][$scope.data["beers"][i].idBrewery] = new Array();
+				$scope.data["bieresParBrasseries"][$scope.data["beers"][i].idBrewery].push($scope.data["beers"][i]);
+			}
+			$log.info($scope.data["bieresParBrasseries"]);
+				
+		}
+	}
+
 	$scope.allSelected=false;
 	
 	$scope.selectAll=function(){
@@ -47,9 +67,10 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	};
 	
 	$scope.getNameBrewery = function(id){
-		for(i=0;i<config.breweries.all.length;i++){
-			if(config.breweries.all[i].id == id)
-				return config.breweries.all[i].name;
+		if($scope.data["breweries"] !== undefined)
+		for(i=0;i<$scope.data["breweries"].length;i++){
+			if($scope.data["breweries"][i].id == id)
+				return $scope.data["breweries"][i].name;
 		}
 	}
 	
@@ -129,7 +150,18 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 			$scope.activeBeer=beer;
 		config.activeBeer=angular.copy($scope.activeBeer);
 		config.activeBeer.reference=$scope.activeBeer;
+		$scope.activeBrewery = $scope.getBrewery($scope.activeBeer.idBrewery);
+		config.activeBrewery=angular.copy($scope.activeBrewery);
+		config.activeBrewery.reference=$scope.activeBrewery;
 		$location.path("beers/show");
+	}
+	
+	$scope.getBrewery = function(id){
+		if($scope.data["breweries"] !== undefined)
+		for(i=0;i<$scope.data["breweries"].length;i++){
+			if($scope.data["breweries"][i].id == id)
+				return $scope.data["breweries"][i];
+		}
 	}
 	
 	$scope.update=function(beer,force,callback){
@@ -171,4 +203,5 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 			beer.deleted=$scope.hideDeleted;
 		}
 	}
+	
 };

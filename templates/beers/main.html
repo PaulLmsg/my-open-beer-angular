@@ -25,6 +25,9 @@
 	<div class="btn-group" role="group" aria-label="parBrasserie">
 		<a data-ng-click="modifGrouperPar()" class="btn btn-default">Filtrer par brasserie</a>
 	</div>
+	<div class="btn-group" role="group" aria-label="gestionColonnes">
+		<a data-ng-click="modifAfficher()" class="btn btn-default">Gerer colonnes affichées</a>
+	</div>
 	<div class="btn-group" role="group" aria-label="count">
 		<div class="btn"><data-ng-pluralize count="results.length" when="{0: 'no beer',1: 'one beer','other':'{} beers'}"></data-ng-pluralize></div>
 	</div>
@@ -39,16 +42,23 @@
 		<p data-ng-repeat="message in messages| NotDeletedFilter as resultMessages" class="text-{{message.type}}" data-ng-show="readMessage(message)">{{message.content}}</p>
 	</div>
 </div>
+<div ng-show="afficherFormChoixColonnes">
+	<label for="colName">Nom</label><input type="checkbox" data-ng-model="afficher.name" value="colName" name="colName">
+	<label for="colDesc">Description</label><input type="checkbox" data-ng-model="afficher.description" value="colDesc" name="colDesc">
+	<label for="colAbv">Abréviation</label><input type="checkbox" data-ng-model="afficher.abv" value="colAbv" name="colAbv">
+	<label for="colPhoto">Photo</label><input type="checkbox" data-ng-model="afficher.photo" value="colPhoto" name="colPhoto">
+	<label for="colidBrewery">Brasserie</label><input type="checkbox" data-ng-model="afficher.idBrewery" value="colidBrewery" name="colidBrewery">
+</div>
 <table class="table table-striped table-condensed" ng-show="!parBrasserie">
 	<thead>
 		<tr>
 			<th><input type="checkbox" title="Sélectionner" data-ng-click="selectAll()" data-ng-model="allSelected"></th>
 			<th data-sort-by data-field="id" data-ref="sortBy"># </th>
-			<th data-sort-by data-field="name" data-ref="sortBy">Name </th>
-			<th data-sort-by data-field="description" data-ref="sortBy">Description </th>
-			<th data-sort-by data-field="abv" data-ref="sortBy">Abbr�viation </th>
-			<th data-sort-by data-field="photo" data-ref="sortBy">Photographie </th>
-			<th data-sort-by data-field="idBrewery" data-ref="sortBy">Brasserie </th>
+			<th ng-show="afficher.name" data-sort-by data-field="name" data-ref="sortBy">Name </th>
+			<th ng-show="afficher.description" data-sort-by data-field="description" data-ref="sortBy">Description </th>
+			<th ng-show="afficher.abv" data-sort-by data-field="abv" data-ref="sortBy">Abbréviation </th>
+			<th ng-show="afficher.photo" data-sort-by data-field="photo" data-ref="sortBy">Photographie </th>
+			<th ng-show="afficher.idBrewery" data-sort-by data-field="idBrewery" data-ref="sortBy">Brasserie </th>
 			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at </th>
 			<th>Updated at</th>
 		</tr>
@@ -56,12 +66,12 @@
 	<tbody>
 		<tr data-ng-repeat="beer in data.beers | NotDeletedFilter | orderBy:sortBy.field : sortBy.asc | filter:q as results track by $index" data-ng-dblclick="edit(beer)" data-ng-click="setActive(beer)" data-ng-class="{'active': isActive(beer)}">
 			<td><input type="checkbox" title="Sélectionner" data-ng-model="beer.selected" data-ng-click="$event.stopPropagation()"></td>
-			<td>{{beer.id}}</td><td>{{beer.name}}
-				<span class="label" data-ng-class="{'label-success':beer.flag=='New','label-warning':beer.flag=='Updated','label-danger':beer.flag=='Deleted'}" data-ng-show="beer.flag">{{beer.flag}}</span></td>
-			<td>{{beer.description}}</td>
-			<td>{{beer.abv}}</td>
-			<td>{{beer.photo}}</td>
-			<td>{{getNameBrewery(beer.idBrewery)}}</td>
+			<td>{{beer.id}}</td>
+			<td ng-show="afficher.name">{{beer.name}}<span class="label" data-ng-class="{'label-success':beer.flag=='New','label-warning':beer.flag=='Updated','label-danger':beer.flag=='Deleted'}" data-ng-show="beer.flag">{{beer.flag}}</span></td>
+			<td ng-show="afficher.description">{{beer.description}}</td>
+			<td ng-show="afficher.abv">{{beer.abv}}</td>
+			<td ng-show="afficher.photo">{{beer.photo}}</td>
+			<td ng-show="afficher.idBrewery">{{getNameBrewery(beer.idBrewery)}}</td>
 			<td>{{beer.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
 			<td>{{beer.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
 		</tr>

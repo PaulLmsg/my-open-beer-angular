@@ -19,6 +19,9 @@
 	<div class="btn-group" role="group" aria-label="Afficher">
 		<a class="btn btn-default" data-ng-show="showShow()" data-ng-click="show()">Afficher</a>
 	</div>
+	<div class="btn-group" role="group" aria-label="gestionColonnes">
+		<a data-ng-click="modifAfficher()" class="btn btn-default">Gerer colonnes affich�es</a>
+	</div>
 	<div class="btn-group" role="group" aria-label="Supprimer">
 		<a class="btn btn-default" data-ng-show="countSelected()>0 && connecte" data-ng-click="remove()"><data-ng-pluralize count="countSelected()" when="{1: 'Supprimer la brasserie','other':'Supprimer les brasseries ({})'}"></span></a>
 	</div>
@@ -36,13 +39,17 @@
 		<p data-ng-repeat="message in messages| NotDeletedFilter as resultMessages" class="text-{{message.type}}" data-ng-show="readMessage(message)" data-ng-bind-html="message.content"></p>
 	</div>
 </div>
+<div ng-show="afficherFormChoixColonnes">
+	<label for="colName">Nom</label><input type="checkbox" data-ng-model="afficher.name" value="colName" name="colName">
+	<label for="colUrl">URL</label><input type="checkbox" data-ng-model="afficher.url" value="colUrl" name="colUrl">
+</div>
 <table class="table table-striped table-condensed">
 	<thead>
 		<tr>
 			<th><input type="checkbox" title="Sélectionner" data-ng-click="selectAll()" data-ng-model="allSelected"></th>
 			<th data-sort-by data-field="id" data-ref="sortBy"># </th>
-			<th data-sort-by data-field="name" data-ref="sortBy">Name </th>
-			<th data-sort-by data-field="url" data-ref="sortBy">url </th>
+			<th ng-show="afficher.name" data-sort-by data-field="name" data-ref="sortBy">Name </th>
+			<th ng-show="afficher.url" data-sort-by data-field="url" data-ref="sortBy">url </th>
 			<th data-sort-by data-field="created_at" data-ref="sortBy">Created at </th>
 			<th>Updated at</th>
 		</tr>
@@ -50,9 +57,9 @@
 	<tbody>
 		<tr data-ng-repeat="brewery in data.breweries | NotDeletedFilter | orderBy:sortBy.field : sortBy.asc | filter:q as results track by $index" data-ng-dblclick="edit(brewery)" data-ng-click="setActive(brewery)" data-ng-class="{'active': isActive(brewery)}">
 			<td><input type="checkbox" title="Sélectionner" data-ng-model="brewery.selected" data-ng-click="$event.stopPropagation()"></td>
-			<td>{{brewery.id}}</td><td>{{brewery.name}}
-				<span class="label" data-ng-class="{'label-success':brewery.flag=='New','label-warning':brewery.flag=='Updated','label-danger':brewery.flag=='Deleted'}" data-ng-show="brewery.flag">{{brewery.flag}}</span></td>
-			<td>{{brewery.url}}</td>
+			<td>{{brewery.id}}</td>
+			<td ng-show="afficher.name">{{brewery.name}} <span class="label" data-ng-class="{'label-success':brewery.flag=='New','label-warning':brewery.flag=='Updated','label-danger':brewery.flag=='Deleted'}" data-ng-show="brewery.flag">{{brewery.flag}}</span></td>
+			<td ng-show="afficher.url">{{brewery.url}}</td>
 			<td>{{brewery.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
 			<td>{{brewery.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
 		</tr>

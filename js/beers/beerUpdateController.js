@@ -6,15 +6,6 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 	}
 	$scope.activeBeer=config.activeBeer;
 	
-	if (!config.breweries.loaded){
-		rest.getAll($scope.data,"breweries");
-		config.breweries.loaded=true;
-		$scope.brasseries = $scope.data["breweries"];
-	} else {
-		//$scope.data["breweries"]=config.breweries.all;
-		$scope.brasseries = config.breweries.all;
-	}
-	
 	$scope._update=function(beer,force,callback){
 		var result=false;
 		if($scope.frmBeer.$dirty){
@@ -34,7 +25,10 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 			};
 			
 			config.activeBeer.reference.name=$scope.activeBeer.name;
-			config.activeBeer.reference.url=$scope.activeBeer.url;
+			config.activeBeer.reference.description=$scope.activeBeer.description;
+			config.activeBeer.reference.abv=$scope.activeBeer.abv;
+			config.activeBeer.reference.photo=$scope.activeBeer.photo;
+			config.activeBeer.reference.idBrewery=$scope.activeBeer.idBrewery;
 			config.activeBeer.reference.updated_at=new Date();
 			
 			if(config.beers.connected==="yes" || force)

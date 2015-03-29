@@ -1,18 +1,30 @@
 module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
-	$scope.data={load:false};
+	$scope.data = {load:false};
 
-	$scope.sortBy={field:"name",asc:false};
+	$scope.sortBy = {field:"name",asc:false};
 	
-	$scope.messages=rest.messages;
+	$scope.messages = rest.messages;
 	
 	if(config.breweries.connected==="yes" || !config.breweries.loaded){
 		$scope.data.load=true;
 		rest.getAll($scope.data,"breweries");
 		config.breweries.loaded=true;
-	}else{
+	} else {
 		$scope.data["breweries"]=config.breweries.all;
 	}
 	$scope.allSelected=false;
+	
+	$scope.afficher = new Array();
+	$scope.afficher['name'] = true;
+	$scope.afficher['url'] = true;
+	
+	$scope.modifAfficher = function(){
+		if ($scope.afficherFormChoixColonnes){
+			$scope.afficherFormChoixColonnes = false;
+		} else {
+			$scope.afficherFormChoixColonnes = true;
+		}
+	}
 	
 	$scope.selectAll=function(){
 		angular.forEach($scope.data.breweries, function(value, key) {
