@@ -1,39 +1,36 @@
-	<form name="frmBeer" data-ng-submit="frmBeer.$valid" novalidate data-ng-init="setFormScope(this)">
-		<div class="form-group" data-ng-class="{'has-error has-feedback': frmBeer.name.$invalid && frmBeer.name.$dirty}">
-			<label for="name">Nom</label>
-			<input class="form-control" type="text" data-ng-model="activeBeer.name" placeholder="Entrez un nom..." required id="name" name="name">
-			<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-		</div>
-		<div class="form-group" data-ng-class="{'has-error has-feedback': frmBeer.description.$invalid && frmBeer.description.$dirty}">
-			<label for="description">Description</label>
-			<textarea class="form-control" data-ng-model="activeBeer.description" placeholder="Entrez une description..." required id="description" name="description"></textarea>
-			<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-		</div>
-		<div class="form-group" data-ng-class="{'has-error has-feedback': frmBeer.photo.$invalid && frmBeer.photo.$dirty }">
-			<label for="photo">Photo</label>
-			<input class="form-control" type="url" data-ng-model="activeBeer.url" placeholder="Entrez l'url pour une photo" required id="photo" name="photo">
-			<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-		</div>
-		<div class="form-group" data-ng-class="{'has-error has-feedback': frmBeer.idBrewery.$invalid && frmBeer.idBrewery.$dirty }">
-			<label for="idBrewery">Brewery</label>
-			<select class="form-control" id="idBrewery" data-ng-model="activeBeer.idBrewery">
-				<option ng-selected="!(brasserie.id != activeBeer.idBrewery)" ng-repeat="brasserie in data.breweries" value="{{brasserie.id}}">{{brasserie.name}}</option>
-			</select>
-			<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-		</div>
-		<div class="form-group" data-ng-class="{'has-error has-feedback': frmBeer.abv.$invalid && frmBeer.abv.$dirty }">
-			<label for="abv">Abr�viation</label>
-			<input class="form-control" type="text" data-ng-model="activeBeer.abv" placeholder="Entrez une abréviation" required id="abv" name="abv">
-			<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-		</div>
-		<div class="form-group">
-			<label for="created_at">Date de cr�ation</label>
-			<input class="form-control" type="text" data-ng-model="activeBeer.created_at" id="created_at" name="created_at" disabled="disabled">
-		</div>
-		<div class="btn-group" role="group" aria-label="afficherBrasseur">
-			<a data-ng-click="afficherBrasseur()" class="btn btn-default">Afficher le brasseur</a>
-		</div>
-		<button type="submit" class="btn btn-default" data-ng-click="exit=true">Valider</button>
-		&nbsp;<a href="beers" class="btn btn-default" data-ng-click="exit=true">Annuler</a>
-	</form>
-	
+<div class="panel panel-default">
+    <div class="panel-heading">{{beer.name}}</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="{{activeBeer.photo}}" alt="{{activeBeer.name}}">
+                </a>
+            </div>
+            <div class="col-md-9">
+                <div class="col-md-12 text-justify">
+                    <strong>Nom :</strong><br>
+                    {{activeBeer.name}}<br><br>
+                    <strong>Description :</strong><br>
+                    {{activeBeer.description}}<br><br>
+                </div>
+                <div class="col-md-6">
+                    <strong>Créer à :</strong><br>
+                    {{activeBeer.created_at}}
+                </div>
+                <div class="col-md-6">
+                    <strong>Modifier à :</strong><br>
+                    {{activeBeer.updated_at}}
+                </div>
+                <div class="col-md-12"><br>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-default" data-ng-click="show()">Afficher brasseur</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="btn-group" role="group">
+    <a class="btn btn-default" href="beers" >Retour</a>
+</div>
