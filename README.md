@@ -30,55 +30,55 @@ L'application respecte le modèle MVC, les traitements sont séparés de la vue.
 Comme dit précédemment chaque fonctionnalité est représentée par un controller, ici vont être détaillés chacun d'entre eux.
 		
 - [x] beerAddController et brewerieAddController :
-			- Ces contrôleurs concerne l'ajout de bière et de brasserie dans la base :
-				- [x] ils récupèrent les données concernant les bières et les brasseries
-				- [x] ils déterminent le formulaire qui doit être afficher (beer ou brewerieForm)
-				- [x] il redirige l'utilisateur selon l'action qu'il fait (ajout, annulation,...)
-				- [x] il insère la bière ou la brasserie dans la base en vérifiant si elle existe déjà et permet la sauvegarde l'opération si la bière ou la brasserie n'existe pas.
+- Ces contrôleurs concerne l'ajout de bière et de brasserie dans la base :
+- [x] ils récupèrent les données concernant les bières et les brasseries
+- [x] ils déterminent le formulaire qui doit être afficher (beer ou brewerieForm)
+- [x] il redirige l'utilisateur selon l'action qu'il fait (ajout, annulation,...)
+- [x] il insère la bière ou la brasserie dans la base en vérifiant si elle existe déjà et permet la sauvegarde l'opération si la bière ou la brasserie n'existe pas.
 				
 - [x] beerShowController et brewerieShowController :
-			- Ces contrôleurs concerne l'affichage de bière et de brasserie :
-				- [x] ils vérifient si une bière ou une brasserie est active, sélectionnée
-				- [x] ils déterminent le formulaire qui doit être afficher (beer ou brewerieShowForm)
-				- [x] ils affichent dans le formulaire correspond les données de la bière ou de la brasserie active
+- Ces contrôleurs concerne l'affichage de bière et de brasserie :
+- [x] ils vérifient si une bière ou une brasserie est active, sélectionnée
+- [x] ils déterminent le formulaire qui doit être afficher (beer ou brewerieShowForm)
+- [x] ils affichent dans le formulaire correspond les données de la bière ou de la brasserie active
 				
 - [x] beerUpdateController et brewerieUpdateController :
-			- Ces contrôleurs concerne la modification de bière et de brasserie dans la base :
-				- [x] ils vérifient si une bière ou une brasserie est active, sélectionnée
-				- [x] ils déterminent le formulaire qui doit être afficher (beer ou brewerieShowForm)
-				- [x] ils modifient la bière ou la brasserie sélectionnée avec les informations remplies dans le formulaire et sauvegarde l'opération
+- Ces contrôleurs concerne la modification de bière et de brasserie dans la base :
+- [x] ils vérifient si une bière ou une brasserie est active, sélectionnée
+- [x] ils déterminent le formulaire qui doit être afficher (beer ou brewerieShowForm)
+- [x] ils modifient la bière ou la brasserie sélectionnée avec les informations remplies dans le formulaire et sauvegarde l'opération
 				
 - [x] beerController et brewerieController :
-			- Ces contrôleurs concerne la liste de bières et de brasseries :
-				- [x] ils récupèrent les données concernant les bières et les brasseries
-				- [x] ils regroupent toutes les fonctions pour le listage des bières ou des brasseries :
-						- [x] suppression d'une ou plusieurs bières ou brasseries
-						- [x] le tri par brasserie dans la liste des bières
-						- [x] la redirection vers les formulaires de modification et d'affichage en détail
-						- [x] le compte des bières ou brasseries sélectionnées
-						- [x] l'affichage de message d'erreurs, de confirmations, ...
-						- [x] le raffraichissement de la liste
-						- [x] la selection de toutes les données 
-						- [x] le filtre par nom
-						- [x] une fonction permettant de cacher ou d'afficher les données supprimées 
+- Ces contrôleurs concerne la liste de bières et de brasseries :
+- [x] ils récupèrent les données concernant les bières et les brasseries
+- [x] ils regroupent toutes les fonctions pour le listage des bières ou des brasseries :
+- [x] suppression d'une ou plusieurs bières ou brasseries
+- [x] le tri par brasserie dans la liste des bières
+- [x] la redirection vers les formulaires de modification et d'affichage en détail
+- [x] le compte des bières ou brasseries sélectionnées
+- [x] l'affichage de message d'erreurs, de confirmations, ...
+- [x] le raffraichissement de la liste
+- [x] la selection de toutes les données 
+- [x] le filtre par nom
+- [x] une fonction permettant de cacher ou d'afficher les données supprimées 
 		
 - [x] configController :
-			- Ce controlleur concerne la page de configuration de l'application
-				- [x] il détermine le formulaire qui doit être afficher (config)
-				- [x] copie la configuration située dans la factory
-				- [x] permet la modification de ces paramètres
+- Ce controlleur concerne la page de configuration de l'application
+- [x] il détermine le formulaire qui doit être afficher (config)
+- [x] copie la configuration située dans la factory
+- [x] permet la modification de ces paramètres
 		
 - [x] saveController :
-			- Ce controlleur concerne la sauvegarde des opérations effectuées
+- Ce controlleur concerne la sauvegarde des opérations effectuées
 			
 - [x] securityController : 
-			- Ce controlleur concerne la connexion à l'application :
-				- [x] il récupère les champs et vérifie si ils sont correctent
-				- [x] il permet la deconnexion 
-				- [x] il affiche les messages lors de la connexion et de la deconnexion
+- Ce controlleur concerne la connexion à l'application :
+- [x] il récupère les champs et vérifie si ils sont correctent
+- [x] il permet la deconnexion 
+- [x] il affiche les messages lors de la connexion et de la deconnexion
 				
 - [x] mainController :
-			- Ce controlleur regroupe quelques fonctions concernant les opérations
+- Ce controlleur regroupe quelques fonctions concernant les opérations
 			
 			
 			
@@ -93,7 +93,7 @@ Les vues sont les formulaires et les pages que l'on affiche dans l'application.
 		
 - [x] beerShowForm et brewerieShowForm :
 			Ceux sont les formulaires utilisés pour la modification et l'affichage en détail d'une bière ou d'une brasserie, on y retrouve tous les champs de ces données :
-				![open-beer Showformulaire](screenshots/beerShowFormulaire.png "open-beer show")
+				![open-beer Showformulaire](screenshots/formulaireShow.png "open-beer show")
 				
 - [x] main (beers et breweries) :
 			Ceux sont les formulaires utilisés pour lister les données, on y retrouve des boutons pour afficher en détail, modifier la donnée sélectionnée, le filtre... . Pour celui de de bières il y a aussi un tableau qui s'affiche lorsqu'on souhaite afficher par brasseries :
@@ -122,13 +122,14 @@ Les services regroupent les fonctions que l'on utilise dans les contrôleurs.
 D'un point de vue fonctionnel :
 	
 Voici toutes les fonctionnalités implémentées dans notre application :
-		- [x]  l'affichage de la liste des bères
-		- [x]  l'ajout d'une bière (il devrait fonctionner)
-		- [x]  la modification d'une bière
-		- [x]  la suppression d'une bière
-		- [x]  l'affichage d'une bière (avec son nom de brasserie)
-		- [x]  la connexion (simulée, pas de base pour se connecter)
-		- [x]  le vérrouillage de certains boutons en cas de non-connexion
-		- [x]  la déconnexion
+
+- [x] l'affichage de la liste des bères
+- [x]  l'ajout d'une bière (il devrait fonctionner)
+- [x]  la modification d'une bière
+- [x]  la suppression d'une bière
+- [x]  l'affichage d'une bière (avec son nom de brasserie)
+- [x]  la connexion (simulée, pas de base pour se connecter)
+- [x]  le vérrouillage de certains boutons en cas de non-connexion
+- [x]  la déconnexion
 		
 	
