@@ -81,11 +81,11 @@
     <tbody ng-repeat="biereParBrasseries in data.bieresParBrasseries track by $index">
     	<thead>
 			<tr>
-				<th><input type="checkbox" title="Sélectionner" data-ng-click="selectAll()" data-ng-model="allSelected"></th>
+				<th><input type="checkbox" title="Selectionner" data-ng-click="selectAll()" data-ng-model="allSelected"></th>
 				<th data-sort-by data-field="id" data-ref="sortBy"># </th>
 				<th data-sort-by data-field="name" data-ref="sortBy">Name </th>
 				<th data-sort-by data-field="description" data-ref="sortBy">Description </th>
-				<th data-sort-by data-field="abv" data-ref="sortBy">Abbr�viation </th>
+				<th data-sort-by data-field="abv" data-ref="sortBy">Abbréviation </th>
 				<th data-sort-by data-field="photo" data-ref="sortBy">Photographie </th>
 				<th data-sort-by data-field="idBrewery" data-ref="sortBy">Brasserie </th>
 				<th data-sort-by data-field="created_at" data-ref="sortBy">Created at </th>
@@ -93,7 +93,7 @@
 			</tr>
 		</thead>
 		<tr>
-			<td colspan="9">{{getNameBrewery(biereParBrasserie[0].idBrewery)}}</td>
+			<td colspan="9">{{getNameBrewery($index)}}</td>
 	  	</tr>
 	  	<tr ng-repeat="beer in biereParBrasseries | NotDeletedFilter | orderBy:sortBy.field : sortBy.asc | filter:q as results track by $index" data-ng-dblclick="edit(beer)" data-ng-click="setActive(beer)" data-ng-class="{'active': isActive(beer)}">
 	    	<td><input type="checkbox" title="Sélectionner" data-ng-model="beer.selected" data-ng-click="$event.stopPropagation()"></td>

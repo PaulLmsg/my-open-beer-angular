@@ -15,13 +15,12 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 				config.activeBeer=angular.copy(beer);
 				config.activeBeer.reference=beer;
 			}
-			$scope.data.posted={ "beer" : {
+			$scope.data.posted={
 			    "name" : beer.name,
 			    "description"  : beer.description,
 			    "abv"  : beer.abv,
 			    "photo"  : beer.photo,
 			    "idBrewery"  : beer.idBrewery
-			  }
 			};
 			
 			config.activeBeer.reference.name=$scope.activeBeer.name;
