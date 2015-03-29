@@ -12,6 +12,15 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save) {
 	} else {
 		$scope.data["breweries"]=config.breweries.all;
 	}
+	
+	/*On a besoin des bières*/
+	if(config.beers.connected==="yes" || !config.beers.loaded){
+		$scope.data.load=true;
+		rest.getAll($scope.data,"beers");
+		config.beers.loaded=true;
+	}else{
+		$scope.data["beers"]=config.beers.all;
+	}
 	$scope.allSelected=false;
 	
 	$scope.afficher = new Array();
