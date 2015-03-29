@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-heading">{{brewery.name}}</div>
+    <div class="panel-heading">{{activeBrewery.name}}</div>
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-6 col-md-3">
@@ -12,54 +12,21 @@
                     <strong>Nom :</strong><br>
                     {{activeBrewery.name}}<br><br>
                     <strong>Site internet :</strong><br>
-                    <a href="{{brewery.url}}">{{activeBrewery.url}}</a><br><br>
+                    <a href="{{activeBrewery.url}}">{{activeBrewery.url}}</a><br><br>
                 </div>
                 <div class="col-md-6">
-                    <strong>Créer à :</strong><br>
+                    <strong>Créée à :</strong><br>
                     {{activeBrewery.created_at}}
                 </div>
                 <div class="col-md-6">
-                    <strong>Modifier à :</strong><br>
+                    <strong>Modifiée à :</strong><br>
                     {{activeBrewery.updated_at}}
                 </div>
                 <div class="col-md-12"><br>
                     <div class="btn-group" role="group">
-                        <a class="btn btn-default" data-ng-click="show()">Afficher les bières</a>
+                        <a class="btn btn-default" data-ng-click="afficherBieres()">Afficher les bières</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div data-ng-show="showBeers">
-    <div class="panel panel-default">
-        <div class="panel-heading">Liste des bières</div>
-        <div class="panel-body" id="panelListTable">
-            <div data-ng-show="existeBeers">
-                <table class="table table-striped table-condensed" id="listTable">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Photo </th>
-                        <th>Description</th>
-                        <th>Created at</th>
-                        <th>Updated at</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="beer in beers['all']">
-                        <td>{{beer.id}}</td><td>{{beer.name}}
-                        <td><a href="{{beer.photo}}"><img ng-src="{{beer.photo}}" width="150"></a></td>
-                        <td>{{activeBeer.description}}</td>
-                        <td>{{activeBeer.created_at | date:'dd/MM/yy HH:mm:ss'}}</td>
-                        <td>{{activeBeer.updated_at | date:'dd/MM/yy HH:mm:ss'}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div data-ng-hide="existeBeers">
-                <p id="noBeerFound">Aucune bière pour cette brasserie.</p>
             </div>
         </div>
     </div>
