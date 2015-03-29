@@ -314,6 +314,21 @@ module.exports=function($scope,rest,$timeout,$location,config,$route,save,$log) 
 	$scope.afficher['idBrewery'] = true;
 	$scope.afficherFormChoixColonnes = false;
 	
+	if (config.activeBrewery !== undefined){
+		$scope.activeBrewery = config.activeBrewery;
+		$scope.parBrasserie = true;
+		$scope.data["bieresParBrasseries"] = new Array();
+		if($scope.data["beers"] !== undefined)
+		for(var i = 0; i<$scope.data["beers"].length; i++){
+			$log.info(config.activeBrewery.id + " = " + $scope.data["beers"][i].idBrewery + ' ?');
+			if ($scope.data["beers"][i].idBrewery == $scope.activeBrewery.id){
+				if (!($scope.data["beers"][i].idBrewery in $scope.data["bieresParBrasseries"]))
+					$scope.data["bieresParBrasseries"][$scope.data["beers"][i].idBrewery] = new Array();	
+				$scope.data["bieresParBrasseries"][$scope.data["beers"][i].idBrewery].push($scope.data["beers"][i]);
+			}
+		}
+	}
+	
 	if(config.beers.connected==="yes" || !config.beers.loaded){
 		$scope.data.load=true;
 		rest.getAll($scope.data,"beers");
@@ -733,6 +748,12 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		$location.path("breweries/");
 	}
 	$scope.activeBrewery=config.activeBrewery;
+	
+	$scope.afficherBieres = function(){
+		config.activeBrewery=angular.copy($scope.activeBrewery);
+		config.activeBrewery.reference=$scope.activeBrewery;
+		$location.path("beers/");
+	}
 };
 },{}],16:[function(require,module,exports){
 module.exports=function($scope,config,$location,rest,save,$document,modalService, $controller){

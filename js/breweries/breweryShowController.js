@@ -5,4 +5,10 @@ module.exports=function($scope,config,$location,rest,save,$document,modalService
 		$location.path("breweries/");
 	}
 	$scope.activeBrewery=config.activeBrewery;
+	
+	$scope.afficherBieres = function(){
+		config.activeBrewery=angular.copy($scope.activeBrewery);
+		config.activeBrewery.reference=$scope.activeBrewery;
+		$location.path("beers/");
+	}
 };
