@@ -42,12 +42,14 @@
 		<p data-ng-repeat="message in messages| NotDeletedFilter as resultMessages" class="text-{{message.type}}" data-ng-show="readMessage(message)">{{message.content}}</p>
 	</div>
 </div>
-<div ng-show="afficherFormChoixColonnes">
-	<label for="colName">Nom</label><input type="checkbox" data-ng-model="afficher.name" value="colName" name="colName">
-	<label for="colDesc">Description</label><input type="checkbox" data-ng-model="afficher.description" value="colDesc" name="colDesc">
-	<label for="colAbv">Abréviation</label><input type="checkbox" data-ng-model="afficher.abv" value="colAbv" name="colAbv">
-	<label for="colPhoto">Photo</label><input type="checkbox" data-ng-model="afficher.photo" value="colPhoto" name="colPhoto">
-	<label for="colidBrewery">Brasserie</label><input type="checkbox" data-ng-model="afficher.idBrewery" value="colidBrewery" name="colidBrewery">
+<div ng-show="afficherFormChoixColonnes"> <!-- Parceque le design n'est pas donné à tout le monde :'( -->
+	<div class="btn-group">
+		<div class="btn btn-primary"><label for="colName">Nom&nbsp;</label><input type="checkbox" data-ng-model="afficher.name" value="colName" name="colName"></div>
+		<div class="btn btn-primary"><label for="colDesc">Description&nbsp;</label><input type="checkbox" data-ng-model="afficher.description" value="colDesc" name="colDesc"></div>
+		<div class="btn btn-primary"><label for="colAbv">Abréviation&nbsp;</label><input type="checkbox" data-ng-model="afficher.abv" value="colAbv" name="colAbv"></div>
+		<div class="btn btn-primary"><label for="colPhoto">Photo&nbsp;</label><input type="checkbox" data-ng-model="afficher.photo" value="colPhoto" name="colPhoto"></div>
+		<div class="btn btn-primary"><label for="colidBrewery">Brasserie&nbsp;</label><input type="checkbox" data-ng-model="afficher.idBrewery" value="colidBrewery" name="colidBrewery"></div>
+	</div>
 </div>
 <table class="table table-striped table-condensed" ng-show="!parBrasserie">
 	<thead>

@@ -981,16 +981,21 @@ module.exports=function($scope,$log,rest,$location,save){
 	
 	$scope.connexion = function(){
 		if ($scope.afficherChamps){
-			$scope.afficherChamps = false;
-			$scope.mail = $scope.identifiant;
-			$scope.identifiant = "";
-			$scope.password = $scope.motDePasse;
-			$scope.motDePasse = "";
-			if ($scope.testCompte($scope.mail, $scope.password)){
-				$scope.connecte = true;
-				return true;
+			if ($scope.identifiant != null && $scope.motDePasse != null){
+				$scope.afficherChamps = false;
+				$scope.mail = $scope.identifiant;
+				$scope.identifiant = "";
+				$scope.password = $scope.motDePasse;
+				$scope.motDePasse = "";
+				if ($scope.testCompte($scope.mail, $scope.password)){
+					$scope.connecte = true;
+					return true;
+				}
+				return false;
+			} else {
+				$scope.afficherChamps = false;
 			}
-			return false;
+			
 		} else {
 			$scope.afficherChamps = true;
 		}

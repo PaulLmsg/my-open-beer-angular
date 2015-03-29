@@ -36,10 +36,19 @@
 				<li ng-repeat="page in paths"><a ng-href="{{page.href}}">&nbsp;{{page.caption}}</a></li>
 			</ol>
 			<div class="panel panel-info">
-				{{messageEtatConnexion()}}
+				<div class="btn btn-default glyphicon glyphicon-user disabled">&nbsp;&nbsp;{{messageEtatConnexion()}}</div>
 				<button ng-show="connecte" class="btn btn-danger" ng-model="deco" ng-click="deconnexion()">Se déconnecter</button>	
 				<button ng-show="!connecte" class="btn" ng-class="{'btn-success': afficherChamps, 'btn-warning': !afficherChamps}" ng-model="co" ng-click="connexion()">Se connecter</button>
-				<span ng-show="afficherChamps"><input type="text" ng-model="identifiant" placeholder="identifiant"/><input type="password" ng-model="motDePasse"/></span>	
+				<span ng-show="afficherChamps">
+					<div class="input-group">
+						<span class="input-group-addon">ID</span>
+						<input type="text" class="form-control" ng-model="identifiant" placeholder="identifiant"/>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Pass</span>
+						<input type="password" class="form-control" placeholder="mot de passe" ng-model="motDePasse"/>
+					</div>
+				</span>	
 			</div>
 		</div>
 		<div class="container">
